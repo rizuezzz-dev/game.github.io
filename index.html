@@ -26,7 +26,6 @@ body {
     backdrop-filter: blur(10px);
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    position: relative;
 }
 
 .gif-container {
@@ -45,7 +44,6 @@ h2 {
     justify-content: space-around;
     align-items: center;
     height: 50px;
-    position: relative;
 }
 
 button {
@@ -55,7 +53,7 @@ button {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.2s;
+    transition: 0.1s;
 }
 
 #btnYa {
@@ -66,7 +64,7 @@ button {
 #btnGa {
     background-color: #bdc3c7;
     color: #7f8c8d;
-    position: absolute;
+    z-index: 999;
 }
 </style>
 </head>
@@ -78,7 +76,7 @@ button {
     
     <div class="btn-group">
         <button id="btnYa" onclick="pilihYa()">Sayang!</button>
-        <button id="btnGa" onmouseover="kabur()" onclick="kabur()">Gak</button>
+        <button id="btnGa" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">Gak</button>
     </div>
 </div>
 
@@ -86,14 +84,17 @@ button {
 function kabur() {
     const btnGa = document.getElementById("btnGa");
     
-    // Mengacak posisi tombol "Gak" biar gak bisa diklik
-    const x = Math.random() * (window.innerWidth - btnGa.offsetWidth - 50);
-    const y = Math.random() * (window.innerHeight - btnGa.offsetHeight - 50);
+    // Hitung batas maksimal posisi acak agar tidak keluar dari area layar browser
+    const maxX = window.innerWidth - btnGa.offsetWidth - 20;
+    const maxY = window.innerHeight - btnGa.offsetHeight - 20;
     
-    // Pindahkan tombol keluar dari kotak ke posisi acak di layar
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+    
+    // Ubah ke fixed langsung saat fungsi dipicu
     btnGa.style.position = "fixed";
-    btnGa.style.left = x + "px";
-    btnGa.style.top = y + "px";
+    btnGa.style.left = randomX + "px";
+    btnGa.style.top = randomY + "px";
 }
 
 function pilihYa() {
@@ -101,11 +102,9 @@ function pilihYa() {
     const emoji = document.getElementById("emoji");
     const btnGroup = document.querySelector(".btn-group");
     
-    // Mengubah konten saat berhasil klik "Sayang!"
     emoji.innerText = "🥰";
     pertanyaan.innerHTML = "<b>Yeeeaaay! Aku juga sayang banget sama kamu! 🥳❤️</b><br><br>Selesai! Gak ada pilihan lain kan? Hahaha. Have a great day!";
     
-    // Sembunyikan tombol-tombolnya
     btnGroup.style.display = "none";
 }
 </script>
