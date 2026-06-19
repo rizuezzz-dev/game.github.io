@@ -3,104 +3,112 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>System Override Challenge</title>
+<title>Pertanyaan Penting! 🤔</title>
 <style>
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Courier New', Courier, monospace;
-    background-color: #0a0f0d;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffe4e1, #ffb6c1);
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #00ff66;
+    color: #4a4a4a;
     overflow: hidden;
 }
 
-.terminal-box {
-    width: 350px;
-    padding: 25px;
-    border: 2px solid #00ff66;
-    border-radius: 10px;
-    background: #050706;
-    box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
-    text-align: left;
+.box {
+    width: 320px;
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative;
 }
 
-.header {
-    border-bottom: 1px solid #00ff66;
-    padding-bottom: 10px;
-    margin-bottom: 15px;
-    font-weight: bold;
-    font-size: 14px;
+.gif-container {
+    font-size: 50px;
+    margin-bottom: 10px;
 }
 
 h2 {
     font-size: 20px;
-    margin: 0 0 10px 0;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    color: #ff477e;
+    margin-bottom: 25px;
 }
 
-p {
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-}
-
-.input-zone {
-    margin-top: 15px;
-}
-
-input {
-    width: 90%;
-    padding: 10px;
-    background: #000;
-    border: 1px solid #00ff66;
-    color: #00ff66;
-    font-family: 'Courier New', monospace;
-    font-size: 16px;
-    outline: none;
-    margin-bottom: 10px;
-    border-radius: 5px;
+.btn-group {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    position: relative;
 }
 
 button {
-    width: 97%;
-    padding: 12px;
+    padding: 10px 25px;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
+    font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
-    font-size: 15px;
-    font-family: 'Courier New', monospace;
-    font-weight: bold;
-    background-color: #00ff66;
-    color: #000;
-    transition: 0.3s;
-    text-transform: uppercase;
+    transition: 0.2s;
 }
 
-button:hover {
-    background-color: #003311;
-    color: #00ff66;
-    box-shadow: 0 0 10px #00ff66;
+#btnYa {
+    background-color: #ff477e;
+    color: white;
 }
 
-.status-log {
-    margin-top: 15px;
-    font-size: 13px;
-    color: #ff3333;
-    min-height: 20px;
-}
-
-.success-text {
-    color: #00ff66 !important;
-    font-weight: bold;
+#btnGa {
+    background-color: #bdc3c7;
+    color: #7f8c8d;
+    position: absolute;
 }
 </style>
 </head>
 <body>
 
-<div class="terminal-box">
-    <div class="header">💾 SYSTEM://
+<div class="box">
+    <div class="gif-container" id="emoji">🤨</div>
+    <h2 id="pertanyaan">Mau nanya serius... Kamu beneran sayang gak sama aku?</h2>
+    
+    <div class="btn-group">
+        <button id="btnYa" onclick="pilihYa()">Sayang!</button>
+        <button id="btnGa" onmouseover="kabur()" onclick="kabur()">Gak</button>
+    </div>
+</div>
+
+<script>
+function kabur() {
+    const btnGa = document.getElementById("btnGa");
+    
+    // Mengacak posisi tombol "Gak" biar gak bisa diklik
+    const x = Math.random() * (window.innerWidth - btnGa.offsetWidth - 50);
+    const y = Math.random() * (window.innerHeight - btnGa.offsetHeight - 50);
+    
+    // Pindahkan tombol keluar dari kotak ke posisi acak di layar
+    btnGa.style.position = "fixed";
+    btnGa.style.left = x + "px";
+    btnGa.style.top = y + "px";
+}
+
+function pilihYa() {
+    const pertanyaan = document.getElementById("pertanyaan");
+    const emoji = document.getElementById("emoji");
+    const btnGroup = document.querySelector(".btn-group");
+    
+    // Mengubah konten saat berhasil klik "Sayang!"
+    emoji.innerText = "🥰";
+    pertanyaan.innerHTML = "<b>Yeeeaaay! Aku juga sayang banget sama kamu! 🥳❤️</b><br><br>Selesai! Gak ada pilihan lain kan? Hahaha. Have a great day!";
+    
+    // Sembunyikan tombol-tombolnya
+    btnGroup.style.display = "none";
+}
+</script>
+
+</body>
+</html>
