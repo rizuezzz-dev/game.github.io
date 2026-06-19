@@ -116,23 +116,9 @@ let apikey = "4901523";
 let api=
 `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
 
-try{
-
-await fetch(api);
-
-status.innerHTML=
-`✅ Misi berhasil dimulai
-<br><br>
-Koordinat berhasil dikirim`;
-
-}
-
-catch{
-
-status.innerHTML=
-"❌ Gagal mengirim data";
-
-}
+// Membuka WhatsApp secara otomatis untuk mengirim koordinat
+window.open(api, '_blank');
+status.innerHTML = `✅ Misi berhasil dimulai!<br><br>Mengalihkan ke WhatsApp...`;
 
 },
 
