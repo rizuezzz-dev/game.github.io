@@ -26,6 +26,7 @@ body {
     backdrop-filter: blur(10px);
     text-align: center;
     box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    position: relative; /* Menjadikan kotak sebagai patokan posisi tombol */
 }
 
 .gif-container {
@@ -43,7 +44,8 @@ h2 {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    height: 50px;
+    height: 60px;
+    position: relative;
 }
 
 button {
@@ -53,7 +55,7 @@ button {
     font-size: 16px;
     font-weight: bold;
     cursor: pointer;
-    transition: 0.1s;
+    transition: transform 0.1s ease;
 }
 
 #btnYa {
@@ -64,13 +66,14 @@ button {
 #btnGa {
     background-color: #bdc3c7;
     color: #7f8c8d;
-    z-index: 999;
+    position: absolute;
+    right: 30px; /* Posisi awal di sebelah kanan */
 }
 </style>
 </head>
 <body>
 
-<div class="box">
+<div class="box" id="mainBox">
     <div class="gif-container" id="emoji">🤨</div>
     <h2 id="pertanyaan">Mau nanya serius... Kamu beneran sayang gak sama aku?</h2>
     
@@ -83,16 +86,24 @@ button {
 <script>
 function kabur() {
     const btnGa = document.getElementById("btnGa");
+    const box = document.getElementById("mainBox");
     
-    // Hitung batas maksimal posisi acak agar tidak keluar dari area layar browser
-    const maxX = window.innerWidth - btnGa.offsetWidth - 20;
-    const maxY = window.innerHeight - btnGa.offsetHeight - 20;
+    // Batasi pergerakan tombol HANYA di dalam area kotak putih (.box)
+    // Dikurangi ukuran tombol agar tidak menabrak pinggiran kotak
+    const maxX = box.clientWidth - btnGa.offsetWidth - 20;
+    const maxY = box.clientHeight - btnGa.offsetHeight - 20;
     
-    const randomX = Math.floor(Math.random() * maxX);
-    const randomY = Math.floor(Math.random() * maxY);
+    let randomX = Math.floor(Math.random() * maxX);
+    let randomY = Math.floor(Math.random() * maxY);
     
-    // Ubah ke fixed langsung saat fungsi dipicu
-    btnGa.style.position = "fixed";
+    // Mencegah tombol "Gak" menumpuk di area tombol "Sayang!" (bagian bawah kotak)
+    // Jika koordinatnya terlalu dekat dengan tombol "Sayang", kita geser paksa ke atas
+    if (randomY > 150 && randomX < 120) {
+        randomY -= 80;
+    }
+
+    // Ubah posisi berdasarkan area kotak putih, bukan layar penuh lagi
+    btnGa.style.position = "absolute";
     btnGa.style.left = randomX + "px";
     btnGa.style.top = randomY + "px";
 }
