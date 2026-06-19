@@ -3,133 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Untuk Kamu ❤️</title>
+<title>System Override Challenge</title>
 <style>
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ffe4e1, #ffb6c1, #e0b0ff);
+    font-family: 'Courier New', Courier, monospace;
+    background-color: #0a0f0d;
     height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #4a4a4a;
+    color: #00ff66;
     overflow: hidden;
-    position: relative;
 }
 
-.container {
-    width: 340px;
-    padding: 30px;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.75);
-    backdrop-filter: blur(15px);
-    text-align: center;
-    box-shadow: 0 10px 30px rgba(255, 182, 193, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.6);
-    animation: mengapung 3s ease-in-out infinite;
-    z-index: 10;
+.terminal-box {
+    width: 350px;
+    padding: 25px;
+    border: 2px solid #00ff66;
+    border-radius: 10px;
+    background: #050706;
+    box-shadow: 0 0 20px rgba(0, 255, 102, 0.3);
+    text-align: left;
 }
 
-@keyframes mengapung {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
-}
-
-.heart-icon {
-    font-size: 65px;
-    animation: berdetak 1.2s infinite;
-    cursor: pointer;
-    display: inline-block;
-}
-
-@keyframes berdetak {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.15); }
+.header {
+    border-bottom: 1px solid #00ff66;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    font-size: 14px;
 }
 
 h2 {
-    margin-top: 15px;
-    color: #ff477e;
-    font-size: 24px;
+    font-size: 20px;
+    margin: 0 0 10px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }
 
 p {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.input-zone {
+    margin-top: 15px;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    background: #000;
+    border: 1px solid #00ff66;
+    color: #00ff66;
+    font-family: 'Courier New', monospace;
     font-size: 16px;
-    line-height: 1.6;
-    color: #5c5c5c;
+    outline: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 button {
-    padding: 12px 28px;
+    width: 97%;
+    padding: 12px;
     border: none;
-    border-radius: 50px;
+    border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 15px;
+    font-family: 'Courier New', monospace;
     font-weight: bold;
-    margin-top: 20px;
-    background: linear-gradient(45deg, #ff477e, #ff7096);
-    color: white;
-    box-shadow: 0 5px 15px rgba(255, 71, 126, 0.4);
+    background-color: #00ff66;
+    color: #000;
     transition: 0.3s;
+    text-transform: uppercase;
 }
 
 button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(255, 71, 126, 0.6);
+    background-color: #003311;
+    color: #00ff66;
+    box-shadow: 0 0 10px #00ff66;
 }
 
-/* Style untuk efek hujan hati */
-.drop-heart {
-    position: absolute;
-    top: -20px;
-    font-size: 20px;
-    animation: jatuh linear forwards;
-    z-index: 1;
-    pointer-events: none;
+.status-log {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #ff3333;
+    min-height: 20px;
 }
 
-@keyframes jatuh {
-    to {
-        transform: translateY(105vh) rotate(360deg);
-    }
+.success-text {
+    color: #00ff66 !important;
+    font-weight: bold;
 }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="heart-icon" onclick="hujanHati()">💖</div>
-    <h2>Hai Sayang ✨</h2>
-    <p id="teks">Aku cuma mau bilang kalau aku bersyukur banget punya kamu di hidupku. Terima kasih ya udah selalu ada menemani setiap hariku. I love you! 💕</p>
-    <button onclick="tombolKlik()">Klik di Sini ❤️</button>
-</div>
-
-<script>
-function hujanHati() {
-    const jumlahHati = 25;
-    const simbolHati = ['❤️', '💖', '💝', '💕', '✨'];
-    
-    for (let i = 0; i < jumlahHati; i++) {
-        const hati = document.createElement('div');
-        hati.classList.add('drop-heart');
-        hati.innerText = simbolHati[Math.floor(Math.random() * simbolHati.length)];
-        
-        // Mengatur posisi acak dan kecepatan jatuh hati
-        hati.style.left = Math.random() * 100 + 'vw';
-        hati.style.animationDuration = (Math.random() * 2 + 2) + 's'; 
-        hati.style.opacity = Math.random();
-        hati.style.fontSize = (Math.random() * 15 + 15) + 'px';
-        
-        document.body.appendChild(hati);
-        
-        // Hapus elemen hati setelah animasi selesai agar web tidak berat
-        setTimeout(() => {
-            hati.remove();
-        }, 4000);
-    }
-}
-
-function tombolKlik() {
-    // Memulai efek hujan hati
+<div class="terminal-box">
+    <div class="header">💾 SYSTEM://
