@@ -1,123 +1,131 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Pertanyaan Penting! 🤔</title>
+<title>System Access</title>
+
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #ffe4e1, #ffb6c1);
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #4a4a4a;
-    overflow: hidden;
+body{
+    margin:0;
+    background:#000;
+    color:#00ff00;
+    font-family:Consolas, monospace;
+    overflow:hidden;
 }
 
-.box {
-    width: 320px;
-    padding: 30px;
-    border-radius: 20px;
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(10px);
-    text-align: center;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    position: relative; /* Menjadikan kotak sebagai patokan posisi tombol */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:-1;
 }
 
-.gif-container {
-    font-size: 50px;
-    margin-bottom: 10px;
+#terminal{
+    padding:30px;
+    font-size:18px;
+    white-space:pre-line;
 }
 
-h2 {
-    font-size: 20px;
-    color: #ff477e;
-    margin-bottom: 25px;
+.cursor{
+    animation:blink .8s infinite;
 }
 
-.btn-group {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 60px;
-    position: relative;
-}
-
-button {
-    padding: 10px 25px;
-    border: none;
-    border-radius: 50px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-}
-
-#btnYa {
-    background-color: #ff477e;
-    color: white;
-}
-
-#btnGa {
-    background-color: #bdc3c7;
-    color: #7f8c8d;
-    position: absolute;
-    right: 30px; /* Posisi awal di sebelah kanan */
+@keyframes blink{
+50%{opacity:0;}
 }
 </style>
+
 </head>
+
 <body>
 
-<div class="box" id="mainBox">
-    <div class="gif-container" id="emoji">🤨</div>
-    <h2 id="pertanyaan">Mau nanya serius... Kamu beneran sayang gak sama aku?</h2>
-    
-    <div class="btn-group">
-        <button id="btnYa" onclick="pilihYa()">Sayang!</button>
-        <button id="btnGa" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">Gak</button>
-    </div>
+<canvas id="matrix"></canvas>
+
+<div id="terminal">
+<span id="text"></span><span class="cursor">█</span>
 </div>
 
 <script>
-function kabur() {
-    const btnGa = document.getElementById("btnGa");
-    const box = document.getElementById("mainBox");
-    
-    // Batasi pergerakan tombol HANYA di dalam area kotak putih (.box)
-    // Dikurangi ukuran tombol agar tidak menabrak pinggiran kotak
-    const maxX = box.clientWidth - btnGa.offsetWidth - 20;
-    const maxY = box.clientHeight - btnGa.offsetHeight - 20;
-    
-    let randomX = Math.floor(Math.random() * maxX);
-    let randomY = Math.floor(Math.random() * maxY);
-    
-    // Mencegah tombol "Gak" menumpuk di area tombol "Sayang!" (bagian bawah kotak)
-    // Jika koordinatnya terlalu dekat dengan tombol "Sayang", kita geser paksa ke atas
-    if (randomY > 150 && randomX < 120) {
-        randomY -= 80;
-    }
 
-    // Ubah posisi berdasarkan area kotak putih, bukan layar penuh lagi
-    btnGa.style.position = "absolute";
-    btnGa.style.left = randomX + "px";
-    btnGa.style.top = randomY + "px";
+// MATRIX EFFECT
+
+const canvas=document.getElementById("matrix");
+const ctx=canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+const letters="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@$#%&";
+const fontSize=16;
+const columns=canvas.width/fontSize;
+const drops=[];
+
+for(let i=0;i<columns;i++) drops[i]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#00ff00";
+ctx.font=fontSize+"px monospace";
+
+for(let i=0;i<drops.length;i++){
+
+let text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
 }
 
-function pilihYa() {
-    const pertanyaan = document.getElementById("pertanyaan");
-    const emoji = document.getElementById("emoji");
-    const btnGroup = document.querySelector(".btn-group");
-    
-    emoji.innerText = "🥰";
-    pertanyaan.innerHTML = "<b>Yeeeaaay! Aku juga sayang banget sama kamu! 🥳❤️</b><br><br>Selesai! Gak ada pilihan lain kan? Hahaha. Have a great day!";
-    
-    btnGroup.style.display = "none";
 }
+
+setInterval(draw,35);
+
+
+// TERMINAL
+
+const output=[
+"> Initializing...",
+"> Connecting to secure server...",
+"> Access granted...",
+"> Downloading data...",
+"> Bypassing firewall...",
+"> Reading passwords...",
+"> Uploading to cloud...",
+"> Success!",
+"",
+"😂😂😂",
+"INI CUMA PRANK 😂",
+"",
+"Komputermu Aman 😎",
+"",
+"GitHub Demo by YOU"
+];
+
+let i=0;
+
+function type(){
+
+if(i<output.length){
+
+document.getElementById("text").innerHTML+=output[i]+"\n";
+
+i++;
+
+setTimeout(type,900);
+
+}
+
+}
+
+setTimeout(type,1000);
+
 </script>
 
 </body>
